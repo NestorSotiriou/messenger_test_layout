@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">messenger test layout</string>
+    <string name="cancel"><u>Άκυρο</u></string>
+    <string name="message_list_string">Επιλέξτε εδώ για νέο μήνυμα από την λίστα <b>έτοιμων μηνημάτων</b></string>
+</resources>

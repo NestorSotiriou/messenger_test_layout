@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splashScreenTaxi"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_splash_screen_scene"
+    tools:context=".SplashScreen">
+
+    <View
+        android:id="@+id/yellowView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/main_yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="682dp" />
+    <View
+        android:id="@+id/yellowView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/main_yellow"
+        />
+
+    <View
+        android:id="@+id/blueGreen1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/blue_green" />
+
+    <View
+        android:id="@+id/blueGreen2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/blue_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="266dp" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/taxiplon_logo"
+        tools:layout_editor_absoluteY="316dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="204dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

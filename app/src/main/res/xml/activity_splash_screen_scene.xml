@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:layout_height="100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="100dp"
+            android:id="@+id/logo"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:alpha="0" />
+        <Constraint
+            android:layout_height="50dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="50dp"
+            android:id="@+id/yellowView"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:layout_height="50dp"
+            motion:layout_constraintBottom_toTopOf="@+id/logo"
+            android:layout_width="50dp"
+            android:id="@+id/blueGreen2"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:layout_height="50dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="50dp"
+            android:id="@+id/blueGreen1"
+            motion:layout_constraintTop_toBottomOf="@+id/logo"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:layout_height="50dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_width="50dp"
+            android:id="@+id/yellowView2"
+            motion:layout_constraintStart_toStartOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:layout_height="100dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="100dp"
+            android:id="@+id/logo"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:layout_height="50dp"
+            motion:layout_constraintBottom_toTopOf="@+id/logo"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="50dp"
+            android:id="@+id/blueGreen2"
+            android:layout_marginEnd="40dp" />
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            motion:layout_editor_absoluteY="682dp"
+            android:id="@+id/yellowView"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="100dp" />
+        <Constraint
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/blueGreen1"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_editor_absoluteY="549dp"
+            android:layout_marginBottom="100dp"
+            android:layout_marginStart="40dp" />
+        <Constraint
+            android:layout_height="50dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_width="50dp"
+            android:id="@+id/yellowView2"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="40dp" />
+    </ConstraintSet>
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:autoTransition="animateToEnd"
+        motion:duration="2100" />
+</MotionScene>
