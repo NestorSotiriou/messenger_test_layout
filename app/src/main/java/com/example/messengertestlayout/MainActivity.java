@@ -39,6 +39,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import retrofit2.Call;
@@ -112,12 +113,11 @@ public class MainActivity extends AppCompatActivity {
                 hideHintQuickMessage();
                 QuickAnswersBottomSheetFragment quickAnswersBottomSheetFragmen = new QuickAnswersBottomSheetFragment();
 
-                quickAnswersBottomSheetFragmen.show(getSupportFragmentManager(),QuickAnswersBottomSheetFragment.TAG);
+                quickAnswersBottomSheetFragmen.show(getSupportFragmentManager(), QuickAnswersBottomSheetFragment.TAG);
 
 
             }
         });
-
 
 
         sendIV.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                sendMessage(messageWindowET.getEditText().toString());
+                sendMessage(messageWindowET.getEditText().getText().toString());
             }
 
         });
@@ -148,34 +148,33 @@ public class MainActivity extends AppCompatActivity {
         Call<List<ItemModel>> call;
         call = api.getItem();
 
-            call.enqueue(new Callback<List<ItemModel>>() {
-                @SuppressLint("NotifyDataSetChanged")
-                @Override
-                public void onResponse(Call<List<ItemModel>> call, Response<List<ItemModel>> response) {
-                    if (response.isSuccessful()) {
-                        if (response.body() != null) {
-                            for (ItemModel item : response.body()) {
-                                messageItems.add(new MessagesItem(item.getTitle(), System.currentTimeMillis(), false, Math.toIntExact(db.myDao().nextid())));
-                                db.myDao().insertAll(new TableMessageItem(0, item.getTitle(), false, System.currentTimeMillis()));
-                            }
-                            recyclerViewAdapter.notifyDataSetChanged();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    messagePBar.setVisibility(View.GONE);
-                                }
-                            });
-
+        call.enqueue(new Callback<List<ItemModel>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<List<ItemModel>> call, Response<List<ItemModel>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        for (ItemModel item : response.body()) {
+                            messageItems.add(new MessagesItem(item.getTitle(), System.currentTimeMillis(), false, Math.toIntExact(db.myDao().nextid())));
+                            db.myDao().insertAll(new TableMessageItem(0, item.getTitle(), false, System.currentTimeMillis()));
+                            recyclerViewAdapter.notifyItemInserted(messageItems.size());
                         }
+                        runOnUiThread(() -> messagePBar.setVisibility(View.GONE));
 
                     }
-                }
-
-                @Override
-                public void onFailure(Call<List<ItemModel>> call, Throwable t) {
 
                 }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<List<ItemModel>> call, Throwable t) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "error downloading: " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    messagePBar.setVisibility(View.GONE);
+                });
+
+            }
+        });
         recyclerViewAdapter.setItemClickListener(new MessengerAdapter.ItemClickListener() {
             @Override
             public void OnClick(int position) {
@@ -186,29 +185,29 @@ public class MainActivity extends AppCompatActivity {
         initSwipeDismissAction(messageHistoryRV);
 
 
-       messageWindowET.getEditText().addTextChangedListener(new TextWatcher() {
-           @Override
-           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        messageWindowET.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-           }
+            }
 
-           @Override
-           public void onTextChanged(CharSequence s, int start, int before, int count) {
-               if(s.length() > 0){
-                   hideHintQuickMessage();
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    hideHintQuickMessage();
 
-               }else{
-                   showHint();
+                } else {
+                    showHint();
 
-               }
+                }
 
-           }
+            }
 
-           @Override
-           public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-           }
-       });
+            }
+        });
 
     }
 
@@ -223,8 +222,6 @@ public class MainActivity extends AppCompatActivity {
         messageWindowET.getEditText().setText("");
         KeyboardUtils.hideSoftInput(MainActivity.this);
     }
-
-
 
 
     private void initSwipeDismissAction(RecyclerView recyclerView) {
@@ -304,11 +301,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     @Override
     public void onDestroy() {
-        BottomSheetDialogFragment bottomSheetDialogFragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(QuickAnswersBottomSheetFragment.TAG);
-        if(bottomSheetDialogFragment != null)
-            bottomSheetDialogFragment.dismissAllowingStateLoss();
         super.onDestroy();
     }
 
@@ -357,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
         quickAnswerHintCV.setVisibility(View.GONE);
     }
 
-    public void showHint(){
+    public void showHint() {
         quickAnswersCV.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_in));
         quickAnswersCV.setVisibility(View.VISIBLE);
         hSymbolTV.setVisibility(View.VISIBLE);

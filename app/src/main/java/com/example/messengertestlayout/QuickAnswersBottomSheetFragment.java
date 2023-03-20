@@ -95,15 +95,6 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
                     mainActivity.showHint();
             }
         });
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                if (mainActivity != null)
-                    mainActivity.showHint();
-            }
-        });
-
 
     }
 
