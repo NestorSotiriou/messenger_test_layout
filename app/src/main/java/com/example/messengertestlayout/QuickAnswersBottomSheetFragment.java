@@ -47,7 +47,6 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
     }
 
@@ -63,27 +62,39 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        MyViewModel viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
-        boolean isSheetExpanded = viewModel.isSheetExpanded();
-
-
         rootView = inflater.inflate(R.layout.quick_message_bottom_sheetfragm, container, false);
         return rootView;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        bottomSheetBehavior = BottomSheetBehavior.from((View) requireView().getParent());
+        if (viewModel.isSheetExpanded()) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        viewModel.setSheetExpanded(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HALF_EXPANDED);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        viewModel.setSheetExpanded(viewModel.isSheetExpanded());
+       //viewModel.setSheetExpanded(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HALF_EXPANDED);
+
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
-
 
         CoordinatorLayout layout = dialog.findViewById(R.id.quick_message_bottomsheetfragment_CL);
         RecyclerView recyclerView = dialog.findViewById(R.id.quick_answersRV);
@@ -131,7 +142,6 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
         ArrayList<String> quickMessages = new ArrayList<>();
         quickMessages.add("paok");
         quickMessages.add("ekdromes");
-        quickMessages.add("narkotika");
         quickMessages.add("etsi mathame");
         quickMessages.add("apo");
         quickMessages.add("paidia");
