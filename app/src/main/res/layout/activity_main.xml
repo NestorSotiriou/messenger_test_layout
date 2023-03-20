@@ -131,6 +131,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/MessageTo" />
 
+
+
             <TextView
                 android:id="@+id/hSymbol"
                 android:layout_width="32dp"
@@ -187,4 +189,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+    <ProgressBar
+        android:id="@+id/messages_progressBar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:translationZ="15dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

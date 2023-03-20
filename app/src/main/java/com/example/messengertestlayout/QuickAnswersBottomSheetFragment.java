@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,8 +37,18 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
     RecyclerView quickAnswersListRV;
     ArrayList<String> quickMessages = fakeqal();
 
+    private MyViewModel viewModel;
+
+
 
     public QuickAnswersBottomSheetFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
     }
 
 
@@ -52,8 +63,18 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        MyViewModel viewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
+        boolean isSheetExpanded = viewModel.isSheetExpanded();
+
+
         rootView = inflater.inflate(R.layout.quick_message_bottom_sheetfragm, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewModel.setSheetExpanded(viewModel.isSheetExpanded());
     }
 
     @Override

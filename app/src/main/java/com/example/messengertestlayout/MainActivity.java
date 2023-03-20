@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,9 +19,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +33,8 @@ import com.example.messengertestlayout.RetroFit.Api;
 import com.example.messengertestlayout.RetroFit.ItemModel;
 import com.example.messengertestlayout.Room.RoomDB;
 import com.example.messengertestlayout.Room.TableMessageItem;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -54,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView sendIV;
 
+    ProgressBar messagePBar;
+
 
     RecyclerView messageHistoryRV;
     CardView quickAnswerHintCV;
@@ -74,10 +82,18 @@ public class MainActivity extends AppCompatActivity {
         messageWindowET = findViewById(R.id.editTextTextPersonName);
         sendIV = findViewById(R.id.send);
         quickAnswersCV = findViewById(R.id.quick_answersFirstCV);
+        messagePBar = findViewById(R.id.messages_progressBar);
 
 
         hSymbolTV = findViewById(R.id.hSymbol);
         messageHistoryRV = findViewById(R.id.recyclerView);
+
+        QuickAnswersBottomSheetFragment bottomSheet = (QuickAnswersBottomSheetFragment) getSupportFragmentManager().findFragmentByTag("bottomSheet");
+        if (bottomSheet == null) {
+            bottomSheet = new QuickAnswersBottomSheetFragment();
+            bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
+        }
+
 
 
         db = Room.databaseBuilder(getApplicationContext(),
@@ -112,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         sendIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         Api api = retrofit.create(Api.class);
         Call<List<ItemModel>> call;
         call = api.getItem();
-        if (false)
+
             call.enqueue(new Callback<List<ItemModel>>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
@@ -151,6 +168,12 @@ public class MainActivity extends AppCompatActivity {
                                 db.myDao().insertAll(new TableMessageItem(0, item.getTitle(), false, System.currentTimeMillis()));
                             }
                             recyclerViewAdapter.notifyDataSetChanged();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    messagePBar.setVisibility(View.GONE);
+                                }
+                            });
 
                         }
 
@@ -296,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
         if(bottomSheetDialogFragment != null)
             bottomSheetDialogFragment.dismissAllowingStateLoss();
         super.onDestroy();
+
     }
 
 
