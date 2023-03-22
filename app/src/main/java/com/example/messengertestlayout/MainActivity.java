@@ -11,8 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,16 +24,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,15 +42,12 @@ import com.example.messengertestlayout.RetroFit.Api;
 import com.example.messengertestlayout.RetroFit.ItemModel;
 import com.example.messengertestlayout.Room.RoomDB;
 import com.example.messengertestlayout.Room.TableMessageItem;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import retrofit2.Call;
@@ -74,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView sendIV;
 
     ProgressBar messagePBar;
+
+    Spinner contactsSpinner;
 
 
     RecyclerView messageHistoryRV;
@@ -99,15 +96,14 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
 
-       // setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this
-        , drawer, toolbar, R.string.OpenDrawer, R.string.CloseDrawer);
+                , drawer, toolbar, R.string.OpenDrawer, R.string.CloseDrawer);
 
         drawer.addDrawerListener(toggle);
 
         toggle.syncState();
-
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -115,13 +111,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id==R.id.nav_account){
+                if (id == R.id.nav_account) {
                     Toast.makeText(MainActivity.this, "Account", Toast.LENGTH_SHORT).show();
-                } else if (id==R.id.nav_settings) {
-                    Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
-                }else {
-                  // Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-
+                } else if (id == R.id.nav_settings) {
+                    //Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(drawer, "clicked", Snackbar.LENGTH_SHORT).show();
+                } else {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                     builder1.setTitle("warning");
                     builder1.setMessage("Are you sure you want to logout?");
@@ -155,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        contactTV = findViewById(R.id.contact);
+        contactsSpinner = findViewById(R.id.contacts_spinner);
         cancelTV = findViewById(R.id.cancel_text_up);
         messageWindowET = findViewById(R.id.editTextTextPersonName);
         sendIV = findViewById(R.id.send);
@@ -183,8 +178,22 @@ public class MainActivity extends AppCompatActivity {
         messageHistoryRV.setLayoutManager(layoutManager);
         messageHistoryRV.setAdapter(recyclerViewAdapter);
 
-        contactTV.setText("Taxiplon");
+        ArrayAdapter<CharSequence> spinnerArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, contactsAList());
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        contactsSpinner.setAdapter(spinnerArrayAdapter);
 
+        contactsSpinner.setSelection(0,false);
+        contactsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         quickAnswersCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -454,6 +463,16 @@ public class MainActivity extends AppCompatActivity {
         quickAnswersCV.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.fade_in));
         quickAnswersCV.setVisibility(View.VISIBLE);
         hSymbolTV.setVisibility(View.VISIBLE);
+    }
+
+    private ArrayList<String> contactsAList() {
+        ArrayList<String> contacts_array = new ArrayList<>();
+        contacts_array.add("Taxiplon");
+        contacts_array.add("IQ Taxi");
+        contacts_array.add("Mobility");
+        contacts_array.add("Orestis");
+
+        return contacts_array;
     }
 
 
