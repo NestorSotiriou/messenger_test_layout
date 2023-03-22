@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
+    tools:showIn = "navigation_view"
+    >
+
+    <group android:id="@+id/acount_group">
+        <item
+            android:id="@+id/nav_account"
+            android:title="My Account"
+            android:icon="@drawable/person_svgrepo_com"/>
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/settings_svgrepo_com"/>
+    </group>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Logout"
+        android:icon="@drawable/logout_svgrepo_com"/>
+
+</menu>

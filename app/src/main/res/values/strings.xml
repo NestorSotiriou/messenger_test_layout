@@ -2,4 +2,17 @@
     <string name="app_name">messenger test layout</string>
     <string name="cancel"><u>Άκυρο</u></string>
     <string name="message_list_string">Επιλέξτε εδώ για νέο μήνυμα από την λίστα <b>έτοιμων μηνημάτων</b></string>
+
+    <string name="OpenDrawer">Open navigation drawer</string>
+    <string name="CloseDrawer">Close navigation drawer</string>
+    <string name="nav_header_title">Nestor Sotiriou</string>
+    <string name="nav_header_subtitle">nestorsotiriou@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_account">Account</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_logout">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

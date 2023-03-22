@@ -37,11 +37,8 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
     ArrayList<String> quickMessages = fakeqal();
 
 
-
-
     public QuickAnswersBottomSheetFragment() {
     }
-
 
 
     @NonNull
@@ -95,9 +92,17 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
                     mainActivity.showHint();
             }
         });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null)
+                    activity.showHint();
+                QuickAnswersBottomSheetFragment.super.onDismiss(dialog);
+            }
+        });
 
     }
-
 
 
     private ArrayList<String> fakeqal() {
