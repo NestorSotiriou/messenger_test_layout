@@ -5,58 +5,25 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.example.messengertestlayout.Fragments.AFragment;
 import com.example.messengertestlayout.Fragments.MessengerFragment;
-import com.example.messengertestlayout.RetroFit.Api;
-import com.example.messengertestlayout.RetroFit.ItemModel;
 import com.example.messengertestlayout.Room.RoomDB;
-import com.example.messengertestlayout.Room.TableMessageItem;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MyTag";
@@ -134,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = Room.databaseBuilder(getApplicationContext(),
                 RoomDB.class, "NestorsDB").allowMainThreadQueries().build();
-        getSupportFragmentManager().beginTransaction().add(R.id.main_containerFL,new MessengerFragment(db), MessengerFragment.TAG).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_containerFL,new MessengerFragment(db), MessengerFragment.TAG).commit();
 
     }
 

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,8 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
-import com.example.messengertestlayout.AFragment;
-import com.example.messengertestlayout.MainActivity;
 import com.example.messengertestlayout.MessagesItem;
 import com.example.messengertestlayout.MessengerAdapter;
 import com.example.messengertestlayout.QuickAnswersBottomSheetFragment;
