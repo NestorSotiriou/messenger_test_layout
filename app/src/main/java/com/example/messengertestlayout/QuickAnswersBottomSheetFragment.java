@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.messengertestlayout.Fragments.MessengerFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -84,20 +85,21 @@ public class QuickAnswersBottomSheetFragment extends BottomSheetDialogFragment {
         quickAnswersAdapter.setItemClickListener(new QuickAnswersAdapter.ItemClickListener() {
             @Override
             public void OnClick(int position) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                if (mainActivity != null)
-                    mainActivity.sendMessage(quickMessages.get(position));
+
+                MessengerFragment messengerFragment = (MessengerFragment) getParentFragmentManager().findFragmentByTag(MessengerFragment.TAG);
+                if (messengerFragment != null)
+                    messengerFragment.sendMessage(quickMessages.get(position));
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                if (mainActivity != null)
-                    mainActivity.showHint();
+                if (messengerFragment != null)
+                    messengerFragment.showHint();
             }
         });
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                MainActivity activity = (MainActivity) getActivity();
-                if (activity != null)
-                    activity.showHint();
+                MessengerFragment messengerFragment = (MessengerFragment) getParentFragmentManager().findFragmentByTag(MessengerFragment.TAG);
+                if (messengerFragment != null)
+                    messengerFragment.showHint();
                 QuickAnswersBottomSheetFragment.super.onDismiss(dialog);
             }
         });

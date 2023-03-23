@@ -10,15 +10,11 @@ import android.view.ViewGroup;
 
 
 public class AFragment extends Fragment {
-
+public static final String TAG = "AFragment";
 
     public AFragment() {
         // Required empty public constructor
     }
-
-
-
-
 
 
     @Override
@@ -27,4 +23,7 @@ public class AFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_a, container, false);
     }
+
+
+
 }
