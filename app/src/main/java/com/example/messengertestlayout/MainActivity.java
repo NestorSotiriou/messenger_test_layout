@@ -11,12 +11,17 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.room.Room;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.example.messengertestlayout.Fragments.AFragment;
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     FrameLayout mainContainerFL;
     RoomDB db;
+    boolean doubleBackToExitPressedOnce = false;
 
     private AppBarConfiguration mAppBarConfiguration;
     Toolbar toolbar;
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.nav_account) {
+               /* if (id == R.id.nav_account) {
                     AFragment aFragment = new AFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_containerFL,aFragment, AFragment.TAG).addToBackStack(null).commit();
                 } else if (id == R.id.nav_settings) {
@@ -91,7 +97,27 @@ public class MainActivity extends AppCompatActivity {
 
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
+                }*/
+                if (id == R.id.nav_settings) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                    // set the custom layout
+                    final View customLayout = getLayoutInflater().inflate(R.layout.custom_alertbox, null);
+                    builder.setView(customLayout);
+
+                    // add a button
+                    builder.setPositiveButton("OK", (dialog, which) -> {
+                        // send data from the AlertDialog to the Activity
+                        EditText editText = customLayout.findViewById(R.id.editText);
+                        sendDialogDataToActivity(editText.getText().toString());
+                    });
+                    // create and show the alert dialog
+                    AlertDialog dialog = builder.create();
+                    //Next Line needed for round corners
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
                 }
+
                 drawer.closeDrawer(GravityCompat.START);
 
 
@@ -112,6 +138,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+
+       /* if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);*/
     }
 
     @Override
@@ -138,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
                     && event.getRawY() > top && event.getRawY() < bottom);
         }
         return false;
+    }
+
+    private void sendDialogDataToActivity(String data) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
     }
 
 
