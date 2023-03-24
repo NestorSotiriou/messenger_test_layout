@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.room.Room;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,8 +20,11 @@ import android.os.Looper;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.KeyboardUtils;
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawer;
     NavigationView navigationView;
 
+    TextView okay_text, cancel_text;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
+
+        Dialog dialog = new Dialog(MainActivity.this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this
                 , drawer, toolbar, R.string.OpenDrawer, R.string.CloseDrawer);
@@ -67,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-               /* if (id == R.id.nav_account) {
+               if (id == R.id.nav_account) {
                     AFragment aFragment = new AFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_containerFL,aFragment, AFragment.TAG).addToBackStack(null).commit();
                 } else if (id == R.id.nav_settings) {
-                    Snackbar.make(drawer, "clicked", Snackbar.LENGTH_SHORT).show();
+                   customDialog(dialog);
                 } else {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                     builder1.setTitle("warning");
@@ -97,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
-                }*/
+                }/*
                 if (id == R.id.nav_settings) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
@@ -105,18 +113,17 @@ public class MainActivity extends AppCompatActivity {
                     final View customLayout = getLayoutInflater().inflate(R.layout.custom_alertbox, null);
                     builder.setView(customLayout);
 
-                    // add a button
-                    builder.setPositiveButton("OK", (dialog, which) -> {
                         // send data from the AlertDialog to the Activity
-                        EditText editText = customLayout.findViewById(R.id.editText);
-                        sendDialogDataToActivity(editText.getText().toString());
-                    });
+                    EditText editText = customLayout.findViewById(R.id.editText);
+                    sendDialogDataToActivity(editText.getText().toString());
+
                     // create and show the alert dialog
                     AlertDialog dialog = builder.create();
                     //Next Line needed for round corners
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.show();
-                }
+                    customDialog(dialog);
+                }*/
 
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -186,5 +193,33 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
     }
 
+    public void customDialog(Dialog dialog){
+        dialog.setContentView(R.layout.custom_alertbox);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.Theme_NavigationDrawerSample;
+
+        okay_text = dialog.findViewById(R.id.okay_text);
+        cancel_text = dialog.findViewById(R.id.cancel_text);
+
+        okay_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this, "okay clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Toast.makeText(MainActivity.this, "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+
+    }
 
 }
